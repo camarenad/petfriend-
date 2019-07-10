@@ -14,6 +14,7 @@ class App extends Component {
     render() {
         return(
             <div>
+                Hello from the index
                 <Switch>
                 
                 </Switch>
