@@ -4,6 +4,9 @@ import './App.css';
 import LoginPage from '../LoginPage/LoginPage';
 import NavBar from '../../components/NavBar/NavBar';
 import SignupPage from '../SignupPage/SignupPage';
+import userService from '../../utils/userService';
+import tokenService from '../../utils/tokenService';
+
 
 // import Index from '../../components/Index';
 // import Create from '../../components/Create';
@@ -12,7 +15,13 @@ import SignupPage from '../SignupPage/SignupPage';
 
 import { Route, Switch, Link } from 'react-router-dom';
 
+
+
 class App extends Component {
+
+  handleSignupOrLogin = () => {
+    this.setState({user: userService.getUser()});
+  }
   render() {
     return (
       <div>

@@ -1,77 +1,47 @@
 const User = require('../models/user');
+const jwt = require('jsonwebtoken');
+const SECRET = process.env.SECRET;
 
 module.exports = {
-
+  signup,
+  login
 };
-  
 
-const Post = require('../models/post');
+async function signup(req, res) {
+  const user = new User(req.body);
+  try {
+    await user.save();
+    const token = createJWT(user);
+    res.json({ token });
+  } catch (err) {
+    // Probably a duplicate email
+    res.status(400).json(err);
+  }
+}
 
-// module.exports = {
-//   getAllPosts,
-//   getOnePost,
-//   createPost,
-//   deletePost,
-//   updatePost,
-//   upvotePost,
-//   addComment,
-//   downvotePost
-// };
+async function login(req, res) {
+  try {
+    const user = await User.findOne({email: req.body.email});
+    if (!user) return res.status(401).json({err: 'bad credentials'});
+    user.comparePassword(req.body.pw, (err, isMatch) => {
+      if (isMatch) {
+        const token = createJWT(user);
+        res.json({token});
+      } else {
+        return res.status(401).json({err: 'bad credentials'});
+      }
+    });
+  } catch (err) {
+    return res.status(401).json(err);
+  }
+}
 
-// function updatePost(req, res) {
-//   Post.findByIdAndUpdate(req.params.id, req.body, {new: true}).then(function(post) {
-//     res.status(200).json(post);
-//   });
-// }
+/*----- Helper Functions -----*/
 
-// function deletePost(req, res) {
-//   Post.findByIdAndRemove(req.params.id).then(function(post) {
-//     res.status(200).json(post);
-//   });
-// }
-
-// function getOnePost(req, res) {
-//   Post.findById(req.params.id).then(function(post) {
-//     res.status(200).json(post);
-//   });
-// }
-
-// function createPost(req, res) {
-//   Post.create(req.body).then(function(post) {
-//     res.status(201).json(post);
-//   });
-// }
-
-// function getAllPosts(req, res) {
-//   Post.find({}).then(function(posts) {
-//     console.log(posts);
-//     res.status(200).json(posts);
-//   });
-// }
-
-// function upvotePost(req, res) {
-//   Post.findById(req.params.id).then(function(post) {
-//     post.upvotes += 1;
-//     post.save(function(post) {
-//       res.status(200).json(post);
-//     })
-//   })
-// }
-
-// function downvotePost(req, res) {
-//   Post.findById(req.params.id).then(function(post) {
-//     post.upvotes -= 1;
-//     post.save(function(post) {
-//       res.status(200).json(post);
-//     })
-//   })
-// }
-
-// function addComment(req, res) {
-//   Post.findById(req.params.id).then(function(post) {
-//     post.comments.push(req.body);
-//     post.save(function(post) {
-//       res.status(200).json(post);
-//     })
-//   })
-// }
+function createJWT(user) {
+  return jwt.sign(
+    {user}, // data payload
+    SECRET,
+    {expiresIn: '24h'}
+  );
+}
