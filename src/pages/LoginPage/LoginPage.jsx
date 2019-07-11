@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import './LoginPage.css';
 
 
-class LoginPage extends React.Component {
+class LoginPage extends Component {
     state = {
         email: '',
         pw: ''
