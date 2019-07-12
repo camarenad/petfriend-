@@ -1,49 +1,54 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import {createPost} from '../../services/api'
+import { createPost } from '../../services/api';
 import axios from 'axios';
 
-
 class SubmitForm extends Component {
-  state = {
-    author: '',
-    picture: '',
-    zipCode: '',
-    petName: '',
-    petAge: '',
-    petBreed: '',
-    petSpecies: '',
-    date: '',
-    time: '',
-    content: '',
-    file: null
-
-    
-  };
+  constructor() {
+    super();
+    this.state = {
+      author: '',
+      picture: '',
+      zipCode: '',
+      petName: '',
+      petAge: '',
+      petBreed: '',
+      petSpecies: '',
+      date: '',
+      time: '',
+      content: '',
+      file: null
+    };
+  }
   handleChange = e => {
-    console.log(e.target.name,e.target.value)
+    console.log(e.target.name, e.target.value);
     this.setState({
       [e.target.name]: e.target.value
     });
   };
-  submitFile = (event) => {
+  submitFile = event => {
     event.preventDefault();
     const formData = new FormData();
     formData.append('file', this.state.file[0]);
-    axios.post(`/api/posts/create`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    }).then(response => {
-      // handle your response;
-    }).catch(error => {
-      // handle your error
-    });
-  }
+    axios
+      .post(`/api/posts/create`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      .then(response => {
+        console.log('response from submitFile', response);
+        // handle your response;
+      })
+      .catch(error => {
+        console.log('err from submitFile', error);
+        // handle your error
+      });
+  };
 
-  handleFileUpload = (event) => {
-    this.setState({file: event.target.files});
-  }
+  handleFileUpload = event => {
+    this.setState({ file: event.target.files });
+  };
 
   // handleSubmit = e => {
   //   console.log(this.state)
@@ -54,11 +59,10 @@ class SubmitForm extends Component {
   //     console.log(json)
   //   })
   // }
-  
 
   render() {
     return (
-      <div className="container">
+      <div className='container'>
         <header className='header-footer text-center'>
           Surrender An Animal
         </header>
@@ -114,13 +118,15 @@ class SubmitForm extends Component {
           <div className='form-group'>
             <div className='col-sm-12'>
               <div className='custom-file'>
-                <input type='file' className='custom-file-input' id='customFile' 
-                       value={this.state.picture}
-                       name='picture'
-                       onChange={this.handleFileUpload}/>
-                <label className='custom-file-label'>
-                  Upload a photo
-                </label>
+                <input
+                  type='file'
+                  className='custom-file-input'
+                  id='customFile'
+                  value={this.state.picture}
+                  name='picture'
+                  onChange={this.handleFileUpload}
+                />
+                <label className='custom-file-label'>Upload a photo</label>
               </div>
             </div>
           </div>
@@ -146,9 +152,7 @@ class SubmitForm extends Component {
                     value='dog'
                     onChange={this.handleChange}
                   />
-                  <label className='form-check-label' >
-                    dog
-                  </label>
+                  <label className='form-check-label'>dog</label>
                 </div>
                 <div className='form-check form-check-inline'>
                   <input
@@ -159,9 +163,7 @@ class SubmitForm extends Component {
                     value='cat'
                     onChange={this.handleChange}
                   />
-                  <label className='form-check-label'>
-                    cat
-                  </label>
+                  <label className='form-check-label'>cat</label>
                 </div>
               </div>
             </div>
@@ -169,6 +171,7 @@ class SubmitForm extends Component {
           <div className='form-group'>
             <div className='col-sm-12 text-center'>
               <button
+                type='submit'
                 className='btn btn-primary'
                 // disabled={this.isFormInvalid()}
               >
