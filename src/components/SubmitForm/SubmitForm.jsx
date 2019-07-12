@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import {createPost} from '../../services/api'
+import axios from 'axios';
+
 
 class SubmitForm extends Component {
   state = {
@@ -13,7 +15,10 @@ class SubmitForm extends Component {
     petSpecies: '',
     date: '',
     time: '',
-    content: ''
+    content: '',
+    file: null
+
+    
   };
   handleChange = e => {
     console.log(e.target.name,e.target.value)
@@ -21,15 +26,35 @@ class SubmitForm extends Component {
       [e.target.name]: e.target.value
     });
   };
-  handleSubmit = e => {
-    console.log(this.state)
-    e.preventDefault()
-    console.log(this.state.petSpecies)
-    console.log(this.state.content)
-    createPost(this.state).then(function(json) {
-      console.log(json)
-    })
+  submitFile = (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append('file', this.state.file[0]);
+    axios.post(`/api/posts/create`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }).then(response => {
+      // handle your response;
+    }).catch(error => {
+      // handle your error
+    });
   }
+
+  handleFileUpload = (event) => {
+    this.setState({file: event.target.files});
+  }
+
+  // handleSubmit = e => {
+  //   console.log(this.state)
+  //   e.preventDefault()
+  //   console.log(this.state.petSpecies)
+  //   console.log(this.state.content)
+  //   createPost(this.state).then(function(json) {
+  //     console.log(json)
+  //   })
+  // }
+  
 
   render() {
     return (
@@ -37,7 +62,7 @@ class SubmitForm extends Component {
         <header className='header-footer text-center'>
           Surrender An Animal
         </header>
-        <form className='form-horizontal' onSubmit={this.handleSubmit}>
+        <form className='form-horizontal' onSubmit={this.submitFile}>
           <div className='form-group'>
             <div className='col-sm-12'>
               <input
@@ -92,7 +117,7 @@ class SubmitForm extends Component {
                 <input type='file' className='custom-file-input' id='customFile' 
                        value={this.state.picture}
                        name='picture'
-                       onChange={this.handleChange}/>
+                       onChange={this.handleFileUpload}/>
                 <label className='custom-file-label'>
                   Upload a photo
                 </label>
