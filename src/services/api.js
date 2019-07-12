@@ -12,19 +12,24 @@
 //     })
 //   }
   
-//   // create
-//   export function createPost(post) {
-//     return fetch('/api/posts', {
-//       method: 'POST',
-//       body: JSON.stringify({
-//         title: post.name,
-//         body: post.body
-//       }),
-//       headers: {
-//         'content-type': 'application/json'
-//       }
-//     })
-//   }
+  // create
+  export function createPost(post) {
+    
+    return fetch('/api/posts/create', {
+      method: 'POST',
+      body: JSON.stringify({
+        petName: post.name,
+        petAge: post.petAge,
+        petBreed: post.petBreed,
+        zipCode: post.zipCode,
+        picture: post.picture,
+        content: post.content
+      }),
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+  }
   
 //   // edit
 //   export function editPost(post) {

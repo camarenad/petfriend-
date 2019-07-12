@@ -5,16 +5,18 @@ import LoginPage from '../LoginPage/LoginPage';
 import NavBar from '../../components/NavBar/NavBar';
 import SignupPage from '../SignupPage/SignupPage';
 import LandingPage from '../LandingPage/LandingPage';
-import AuthLanding from '../AuthLanding/AuthLanding'
+import AuthLanding from '../AuthLanding/AuthLanding';
+import SearchPage from '../SearchPage/SearchPage';
+import SubmitPage from '../SubmitPage/SubmitPage';
+
 import userService from '../../utils/userService';
-import tokenService from '../../utils/tokenService';
 
 // import Index from '../../components/Index';
 // import Create from '../../components/Create';
 // import Edit from '../../components/Edit';
 // import Show from '../../components/Show';
 
-import { Route, Switch, Link } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 class App extends Component {
   constructor() {
@@ -31,10 +33,9 @@ class App extends Component {
 
   handleSignupOrLogin = () => {
     this.setState({ user: userService.getUser() });
-    window.location = '/user'
+    window.location = '/user';
   };
   render() {
-    
     return (
       <div>
         <NavBar user={userService.getUser()} handleLogout={this.handleLogout} />
@@ -42,9 +43,9 @@ class App extends Component {
           <Route
             exact
             path='/signup'
-            render={({ history }) => (
+            render={({ props }) => (
               <SignupPage
-                history={history}
+                props={props}
                 handleSignupOrLogin={this.handleSignupOrLogin}
               />
             )}
@@ -52,24 +53,33 @@ class App extends Component {
           <Route
             exact
             path='/login'
-            render={({ history }) => (
+            render={({ props }) => (
               <LoginPage
-                history={history}
+                props={props}
                 handleSignupOrLogin={this.handleSignupOrLogin}
-                
               />
             )}
           />
-          {!this.state.user ? <Route
+          <Route
             exact
             path='/'
-            render={({ history }) => <LandingPage history={history} />}
-          /> :
+            render={({ props }) => <LandingPage props={props} />}
+          />
           <Route
             exact
             path='/user'
-            render={({ history }) => <AuthLanding history={history} />}
-          />}
+            render={({ props }) => <AuthLanding props={props} />}
+          />
+          <Route
+            exact
+            path='/search'
+            render={({ props }) => <SearchPage props={props} />}
+          />
+          <Route
+            exact
+            path='/submit'
+            render={({ props }) => <SubmitPage props={props} />}
+          />
         </Switch>
       </div>
     );

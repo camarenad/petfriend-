@@ -9,12 +9,24 @@ const NavBar = props => {
         HOME
       </Link>
       &nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+      <Link to='/search' className='NavBar-link'>
+        SEARCH
+      </Link>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <Link to='/submit' className='NavBar-link'>
+        SUBMIT
+      </Link>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
       <Link to='' className='NavBar-link' onClick={props.handleLogout}>
         LOG OUT
       </Link>
     </div>
   ) : (
     <div>
+      <Link to='/search' className='NavBar-link'>
+        SEARCH
+      </Link>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
       <Link to='/login' className='NavBar-link'>
         LOG IN
       </Link>

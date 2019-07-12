@@ -22,7 +22,7 @@ class LoginPage extends Component {
         this.props.handleSignupOrLogin();
         this.props.history.push('/')
       } catch(err) {
-        alert('Invalid Credentials!')
+        console.log(err)
       }
 
     }
