@@ -1,21 +1,19 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { createPost } from '../../services/api';
+import tokenService from '../../utils/tokenService';
 import axios from 'axios';
+import { brotliDecompress } from 'zlib';
 
 class SubmitForm extends Component {
   constructor() {
     super();
     this.state = {
-      author: '',
-      picture: '',
       zipCode: '',
       petName: '',
       petAge: '',
       petBreed: '',
       petSpecies: '',
-      date: '',
-      time: '',
       content: '',
       file: null
     };
@@ -30,15 +28,25 @@ class SubmitForm extends Component {
     event.preventDefault();
     const formData = new FormData();
     formData.append('file', this.state.file[0]);
+    // const body = { ...this.state };
+    // delete body.file;
+    for (let key in this.state) {
+      if (!key === 'file') {
+        formData.append(key, this.state[key]);
+      }
+    }
     axios
       .post(`/api/posts/create`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+          // 'Content-Type': 'multipart/form-data',
+          Authorization: 'Bearer ' + tokenService.getToken()
         }
       })
       .then(response => {
         console.log('response from submitFile', response);
         // handle your response;
+        console.log(response.data) // newly created post from server
       })
       .catch(error => {
         console.log('err from submitFile', error);
@@ -47,6 +55,8 @@ class SubmitForm extends Component {
   };
 
   handleFileUpload = event => {
+    console.log(event.target.files[0]);
+
     this.setState({ file: event.target.files });
   };
 
@@ -122,8 +132,6 @@ class SubmitForm extends Component {
                   type='file'
                   className='custom-file-input'
                   id='customFile'
-                  value={this.state.picture}
-                  name='picture'
                   onChange={this.handleFileUpload}
                 />
                 <label className='custom-file-label'>Upload a photo</label>

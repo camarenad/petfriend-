@@ -22,7 +22,13 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      user: userService.getUser()
+      user: userService.getUser(),
+      posts: [{
+        petName: "bob",
+        petBreed: 'tabby',
+        zipCode: "90045"
+
+      }]
     };
   }
 
