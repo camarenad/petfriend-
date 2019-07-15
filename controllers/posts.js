@@ -20,7 +20,7 @@ async function createPost(req, res) {
     await post.save();
     // Send back just the id of the new post.
     // A second request will submit the file
-    return res.json({postId: post._id});
+    return res.json({ postId: post._id });
   } catch (err) {
     return res.status(400).json(err);
   }
@@ -62,13 +62,23 @@ function uploadFile(request, response, next) {
   });
 }
 
-async function  indexAnimals(req,res,next) {
-  const animals =  await Post.find({}).populate('author').limit(req.query.limit || 10);
+async function indexAnimals(req, res, next) {
+  const animals = await Post.find({})
+    .populate('author')
+    .limit(req.query.limit || 10);
   return res.json(animals);
+}
+function show(res, req, next) {
+  var id = req.req.params.id;
+  Post.findById(id).then(function(post) {
+    console.log(post);
+    res.res.status(200).json(post);
+  });
 }
 
 module.exports = {
   createPost,
   uploadFile,
-  indexAnimals
+  indexAnimals,
+  show
 };

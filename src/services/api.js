@@ -1,50 +1,57 @@
+import tokenService from '../utils/tokenService';
+import { Route53Resolver } from 'aws-sdk';
+
 // // index
 // export function getPosts() {
 //     return fetch(`/api/posts`).then(function(res) {
 //       return res.json();
 //     })
 //   }
-  
+
 //   // show
 //   export function getPost(id) {
 //     return fetch(`/api/posts/${id}`).then(function(res) {
 //       return res.json();
 //     })
 //   }
-  
-  // create
-  export function createPost(post) {
-    
-    return fetch('/api/posts/create', {
-      method: 'POST',
-      body: JSON.stringify({
-        petName: post.name,
-        petAge: post.petAge,
-        petBreed: post.petBreed,
-        zipCode: post.zipCode,
-        picture: post.picture,
-        content: post.content
-      }),
-      headers: {
-        'content-type': 'application/json'
-      }
-    })
-  }
-  
-//   // edit
-//   export function editPost(post) {
-//     return fetch(`/api/posts/${post.id}`, {
-//       method: 'PUT',
-//       body: JSON.stringify({
-//         title: post.title,
-//         body: post.body
-//       }),
-//       headers: {
-//         'content-type': 'application/json'
-//       }
-//     })
-//   }
-  
+
+// create
+export function createPost(post) {
+  return fetch('/api/posts/create', {
+    method: 'POST',
+    body: JSON.stringify({
+      petName: post.name,
+      petAge: post.petAge,
+      petBreed: post.petBreed,
+      zipCode: post.zipCode,
+      picture: post.picture,
+      content: post.content
+    }),
+    headers: {
+      'content-type': 'application/json',
+      Authorization: 'Bearer ' + tokenService.getToken()
+    }
+  });
+}
+
+export function getPost(id) {
+  return fetch(`/api/posts/${id}`).then(function(res){
+    return res.json()
+  })
+}
+
+// edit
+export function editPost(post) {
+  return fetch(`/api/posts/${post.id}`, {
+    method: 'PUT',
+    body: JSON.stringify(post),
+    headers: {
+      'content-type': 'application/json',
+      Authorization: 'Bearer ' + tokenService.getToken()
+    }
+  });
+}
+
 //   // delete
 //   export function deletePost(id) {
 //     return fetch(`/api/posts/${id}`, {
@@ -53,7 +60,7 @@
 //       return res.json()
 //     });
 //   }
-  
+
 //   // upvote/downvote posts
 //   export function upvotePost(id, type) {
 //     var type = type === "downvote" ? "downvote" : "upvote";
@@ -67,7 +74,7 @@
 //       }
 //     })
 //   }
-  
+
 //   // add a comment to post
 //   export function addComment(postId, comment) {
 //     return fetch(`/api/posts/${postId}/comments`, {

@@ -10,6 +10,7 @@ router.use(auth);
 router.get('/index-animals',postsCtrl.indexAnimals)
 router.post('/create-post', postsCtrl.createPost,checkAuth);
 router.post('/upload-file/:postId', postsCtrl.uploadFile,checkAuth);
+router.get('/:id',postsCtrl.show)
 
 // helper function
 function checkAuth(req, res, next) {

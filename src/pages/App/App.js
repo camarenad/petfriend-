@@ -8,6 +8,7 @@ import LandingPage from '../LandingPage/LandingPage';
 import AuthLanding from '../AuthLanding/AuthLanding';
 import SearchPage from '../SearchPage/SearchPage';
 import SubmitPage from '../SubmitPage/SubmitPage';
+import EditPostPage from '../EditPostPage/EditPost'
 
 import userService from '../../utils/userService';
 
@@ -16,7 +17,7 @@ import userService from '../../utils/userService';
 // import Edit from '../../components/Edit';
 // import Show from '../../components/Show';
 
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch,Redirect } from 'react-router-dom';
 
 class App extends Component {
   constructor() {
@@ -80,6 +81,16 @@ class App extends Component {
             path='/submit'
             render={({ props }) => <SubmitPage props={props} />}
           />
+          <Route
+            exact
+            path='/posts/:id/edit'
+            render={ (props) =>
+            
+            userService.getUser() ?
+            <EditPostPage {...props} />
+            :
+            <Redirect to='/login' />
+            }/>
         </Switch>
       </div>
     );
