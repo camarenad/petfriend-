@@ -23,12 +23,6 @@ class App extends Component {
     super();
     this.state = {
       user: userService.getUser(),
-      posts: [{
-        petName: "bob",
-        petBreed: 'tabby',
-        zipCode: "90045"
-
-      }]
     };
   }
 

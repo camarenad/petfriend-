@@ -4,7 +4,6 @@ import { createPost } from '../../services/api';
 import tokenService from '../../utils/tokenService';
 import axios from 'axios';
 import { brotliDecompress } from 'zlib';
-
 class SubmitForm extends Component {
   constructor() {
     super();
@@ -24,42 +23,48 @@ class SubmitForm extends Component {
       [e.target.name]: e.target.value
     });
   };
-  submitFile = event => {
+
+  submitPost = event => {
     event.preventDefault();
+    const postData = { ...this.state };
+    delete postData.file;
+    axios
+      .post(`/api/posts/create-post`, postData, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + tokenService.getToken()
+        }
+      })
+      .then(response => {
+        this.submitFile(response.data.postId).then(post => {
+          console.dir(post);
+          // What to do now with newly created post? Send it to App to be put in state?
+          // Or just move to another route?
+        });
+      })
+      .catch(err => console.log(err));
+  };
+  submitFile = postId => {
     const formData = new FormData();
     formData.append('file', this.state.file[0]);
-    // const body = { ...this.state };
-    // delete body.file;
-    for (let key in this.state) {
-      if (!key === 'file') {
-        formData.append(key, this.state[key]);
-      }
-    }
-    axios
-      .post(`/api/posts/create`, formData, {
+    return axios
+      .post(`/api/posts/upload-file/${postId}`, formData, {
         headers: {
-          // 'Content-Type': 'application/x-www-form-urlencoded',
-          // 'Content-Type': 'multipart/form-data',
+          'Content-Type': 'multipart/form-data',
           Authorization: 'Bearer ' + tokenService.getToken()
         }
       })
       .then(response => {
         console.log('response from submitFile', response);
         // handle your response;
-        console.log(response.data) // newly created post from server
-      })
-      .catch(error => {
-        console.log('err from submitFile', error);
-        // handle your error
+        console.log(response.data); // newly created post from server
+        return response.data;
       });
   };
-
   handleFileUpload = event => {
     console.log(event.target.files[0]);
-
     this.setState({ file: event.target.files });
   };
-
   // handleSubmit = e => {
   //   console.log(this.state)
   //   e.preventDefault()
@@ -69,14 +74,13 @@ class SubmitForm extends Component {
   //     console.log(json)
   //   })
   // }
-
   render() {
     return (
       <div className='container'>
         <header className='header-footer text-center'>
           Surrender An Animal
         </header>
-        <form className='form-horizontal' onSubmit={this.submitFile}>
+        <form className='form-horizontal' onSubmit={this.submitPost}>
           <div className='form-group'>
             <div className='col-sm-12'>
               <input
@@ -196,5 +200,4 @@ class SubmitForm extends Component {
     );
   }
 }
-
 export default SubmitForm;

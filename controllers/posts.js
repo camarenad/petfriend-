@@ -13,7 +13,20 @@ const multiparty = require('multiparty');
 //   // configure AWS to work with promises
 //   AWS.config.setPromisesDependency(bluebird);
 
-function create(request, response, next) {
+async function createPost(req, res) {
+  const post = new Post(req.body);
+  post.author = req.user._id;
+  try {
+    await post.save();
+    // Send back just the id of the new post.
+    // A second request will submit the file
+    return res.json({postId: post._id});
+  } catch (err) {
+    return res.status(400).json(err);
+  }
+}
+
+function uploadFile(request, response, next) {
   // create S3 instance
   const s3 = new AWS.S3();
 
@@ -39,9 +52,8 @@ function create(request, response, next) {
       const timestamp = Date.now().toString();
       const fileName = `bucketFolder/${timestamp}-lg`;
       const data = await uploadFile(buffer, fileName, type);
-      const post = new Post(request.body);
+      const post = await Post.findById(request.params.postId);
       post.picture = data.Location;
-      post.author = request.user._id;
       await post.save();
       return response.json(post);
     } catch (error) {
@@ -50,6 +62,13 @@ function create(request, response, next) {
   });
 }
 
+async function  indexAnimals(req,res,next) {
+  const animals =  await Post.find({}).populate('author').limit(req.query.limit || 10);
+  return res.json(animals);
+}
+
 module.exports = {
-  create
+  createPost,
+  uploadFile,
+  indexAnimals
 };

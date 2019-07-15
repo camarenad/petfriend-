@@ -5,8 +5,17 @@ const auth = require('../../config/auth');
 
 /*---------- Public Routes ----------*/
 
-router.post('/create', auth, postsCtrl.create);
-
 /*---------- Protected Routes ----------*/
+router.use(auth);
+router.get('/index-animals',postsCtrl.indexAnimals)
+router.post('/create-post', postsCtrl.createPost,checkAuth);
+router.post('/upload-file/:postId', postsCtrl.uploadFile,checkAuth);
+
+// helper function
+function checkAuth(req, res, next) {
+    if (req.user) return next();
+    return res.status(401).json({msg: 'Not Authorized'});
+  }
+  
 
 module.exports = router;

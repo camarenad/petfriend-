@@ -10,14 +10,11 @@ const postSchema = new Schema({
         required: true
     },
     picture: {
-        type: String,
-        required: true,
+        type: String
     },
     zipCode: {
-        type: Number,
-        required: true,
-        min: 5,
-        max: 10
+        type: String,
+        required: true
     },
     petName: {
         type: String,
@@ -26,8 +23,7 @@ const postSchema = new Schema({
     },
     petAge: {
         type: Number,
-        required: true,
-        max: 2
+        required: true
     },
     petBreed: {
         type: String,
