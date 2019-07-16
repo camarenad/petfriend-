@@ -1,29 +1,48 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { getPost } from '../../services/api';
+import { getPost, editPost } from '../../services/api';
 
 class EditPostPage extends Component {
   constructor() {
     super();
     this.state = {
       author: '',
-      name: '',
-      age: '',
-      breed: '',
+      petName: '',
+      petAge: '',
+      petBreed: '',
       zipCode: '',
-      description: ''
+      content: '',
+      species: '',
+      id: ''
     };
   }
   componentDidMount = () => {
     //   console.log(this.props)
     var id = this.props.match.params.id;
     var self = this;
-    getPost(id).then(function(json){
-        console.log(json)
+    getPost(id)
+      .then(json => json)
+      .then(data => {
+        self.setState({
+          petName: data.petName,
+          petAge: data.petAge,
+          petBreed: data.petBreed,
+          zipCode: data.zipCode,
+          content: data.content,
+          species: data.petSpecies,
+          author: data.author,
+          id: data._id
+        });
+      });
+  };
+  updatePost = e => {
+    e.preventDefault();
+    editPost(this.state).then(res => {
+    this.props.history.push('/user')
     });
   };
+
   handleChange = e => {
-    console.log(e.target.name, e.target.value);
     this.setState({
       [e.target.name]: e.target.value
     });
@@ -34,7 +53,7 @@ class EditPostPage extends Component {
         <header className='header-footer text-center'>
           Surrender An Animal
         </header>
-        <form className='form-horizontal' onSubmit={this.submitPost}>
+        <form className='form-horizontal' onSubmit={this.updatePost}>
           <div className='form-group'>
             <div className='col-sm-12'>
               <input
@@ -128,10 +147,10 @@ class EditPostPage extends Component {
                 className='btn btn-primary'
                 // disabled={this.isFormInvalid()}
               >
-                Sign Up
+                Submit
               </button>
               &nbsp;&nbsp;
-              <Link to='/' className='btn btn-danger'>
+              <Link to='/users' className='btn btn-danger'>
                 Cancel
               </Link>
             </div>

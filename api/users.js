@@ -1,13 +1,13 @@
-// var express = require('express');
-// var router = express.Router();
-// const usersCtrl = require('../../controllers/users');
+var express = require('express');
+var router = express.Router();
+const usersCtrl = require('../../controllers/users');
 
-// /*---------- Public Routes ----------*/
-// router.post('/signup', usersCtrl.signup);
-// router.post('/login', usersCtrl.login);
-
-
-// /*---------- Protected Routes ----------*/
+/*---------- Public Routes ----------*/
+router.post('/signup', usersCtrl.signup);
+router.post('/login', usersCtrl.login);
 
 
-// module.exports = router;
+/*---------- Protected Routes ----------*/
+
+
+module.exports = router;

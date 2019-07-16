@@ -35,13 +35,14 @@ export function createPost(post) {
 }
 
 export function getPost(id) {
-  return fetch(`/api/posts/${id}`).then(function(res){
-    return res.json()
-  })
+  return fetch(`/api/posts/${id}`).then(function(res) {
+    return res.json();
+  });
 }
 
 // edit
 export function editPost(post) {
+  console.log(post);
   return fetch(`/api/posts/${post.id}`, {
     method: 'PUT',
     body: JSON.stringify(post),
@@ -49,17 +50,27 @@ export function editPost(post) {
       'content-type': 'application/json',
       Authorization: 'Bearer ' + tokenService.getToken()
     }
+  }).then(res => {
+    return res.json();
   });
 }
 
-//   // delete
-//   export function deletePost(id) {
-//     return fetch(`/api/posts/${id}`, {
-//       method: 'delete'
-//     }).then(function(res) {
-//       return res.json()
-//     });
-//   }
+// delete
+export function deletePost(id) {
+  console.log('$$$$$$$$$$$$$$$$$$$$api service deletePost');
+  return fetch(`/api/posts/${id}`, {
+    method: 'delete'
+  }).then(function(res) {
+    return res.json();
+  });
+}
+// export function deletePost(id) {
+//   return fetch(`/api/posts/${id}`, {
+//     method: 'delete'
+//   })
+//     .then(res => res.text())
+//     .then(post => post);
+// }
 
 //   // upvote/downvote posts
 //   export function upvotePost(id, type) {

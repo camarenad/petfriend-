@@ -66,6 +66,7 @@ async function indexAnimals(req, res, next) {
   const animals = await Post.find({})
     .populate('author')
     .limit(req.query.limit || 10);
+
   return res.json(animals);
 }
 function show(res, req, next) {
@@ -76,9 +77,27 @@ function show(res, req, next) {
   });
 }
 
+function updatePost(req, res) {
+  Post.findByIdAndUpdate(req.params.id, req.body, { new: true }).then(function(
+    post
+  ) {
+    res.status(200).json(post);
+  });
+}
+
+function deletePost(req, res) {
+  console.log('$$$$$$$$$$$$$$$$$$$$posts controller Delete post');
+
+  Post.findByIdAndRemove(req.params.id).then(post => {
+    res.status(200).json(post);
+  });
+}
+
 module.exports = {
   createPost,
   uploadFile,
   indexAnimals,
-  show
+  show,
+  updatePost,
+  deletePost
 };

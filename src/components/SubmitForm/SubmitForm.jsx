@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { createPost } from '../../services/api';
 import tokenService from '../../utils/tokenService';
 import axios from 'axios';
-import { brotliDecompress } from 'zlib';
 class SubmitForm extends Component {
   constructor() {
     super();
@@ -187,7 +185,7 @@ class SubmitForm extends Component {
                 className='btn btn-primary'
                 // disabled={this.isFormInvalid()}
               >
-                Sign Up
+                Submit
               </button>
               &nbsp;&nbsp;
               <Link to='/' className='btn btn-danger'>

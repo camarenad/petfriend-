@@ -1,24 +1,33 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import { thisExpression } from '@babel/types';
-import  userService from '../../utils/userService'
-import {Link} from 'react-router-dom'
+// import axios from 'axios';
+import userService from '../../utils/userService';
+import { getPost, deletePost } from '../../services/api';
+import { Link } from 'react-router-dom';
 class AuthLanding extends Component {
   constructor() {
     super();
     this.state = {
       animals: [],
+      currentUsr: '',
+      id: ''
     };
   }
   componentDidMount() {
-    console.log(this.state.currentUsr)
     fetch('/api/posts/index-animals')
       .then(res => res.json())
       .then(data => {
-        this.setState({ animals: data,currentUsr: userService.getUser()});
-        console.log(this.state.animals);
+        this.setState({ animals: data, currentUsr: userService.getUser() });
       });
   }
+
+  handleDelete = id => {
+    console.log('$$$$$$$$$$$$$$$$$$$$AuthLanding handleDelete');
+    getPost(id)
+      .then(json => json)
+      .then(data => {
+        deletePost(data._id);
+      });
+  };
 
   render() {
     var animal = this.state.animals.map((a, i) => {
@@ -42,14 +51,28 @@ class AuthLanding extends Component {
               <li className='list-group-item'>User:{a.author.email}</li>
             </ul>
           </div>
-          { (this.state.currentUsr && this.state.currentUsr._id )=== a.author._id ? <Link to={`/posts/${a._id}/edit`} className='btn btn-primary'>Edit</Link> :<input type='submit' className='btn btn-primary' value='Contact'  />}
+          {(this.state.currentUsr && this.state.currentUsr._id) ===
+          a.author._id ? (
+            <div>
+              <Link to={`/posts/${a._id}/edit`} className='btn btn-primary'>
+                Edit
+              </Link>
+              <a
+                // href={`/posts/${a._id}`}
+                onClick={() => this.handleDelete(a._id)}
+                className='btn btn-danger'
+              >
+                Delete
+              </a>
+            </div>
+          ) : (
+            <input type='submit' className='btn btn-primary' value='Contact' />
+          )}
           <br />
         </div>
       );
     });
-    return <div>
-     {animal} 
-    </div>;
+    return <div>{animal}</div>;
   }
 }
 
