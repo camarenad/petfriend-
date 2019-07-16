@@ -12,8 +12,12 @@ class LandingPage extends Component {
         <p name='lead'>Find adoptable animals before they hit the shelter</p>
         <hr name='my-4' />
         <p>
-          It uses utility classes for typography and spacing to space content
-          out within the larger container.
+          It is a long established fact that a reader will be distracted by the
+          readable content of a page when looking at its layout. The point of
+          using Lorem Ipsum is that it has a more-or-less normal distribution of
+          letters, as opposed to using 'Content here, content here', making it
+          look like readable English. Many desktop publishing packages and web
+          page editors now use
         </p>
         <p name='lead'>
           <a name='btn btn-primary btn-lg' href='/signup' role='button'>

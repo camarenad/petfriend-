@@ -64,6 +64,7 @@ function uploadFile(request, response, next) {
 
 async function indexAnimals(req, res, next) {
   const animals = await Post.find({})
+    .sort({createdAt: -1})
     .populate('author')
     .limit(req.query.limit || 10);
 
@@ -86,8 +87,6 @@ function updatePost(req, res) {
 }
 
 function deletePost(req, res) {
-  console.log('$$$$$$$$$$$$$$$$$$$$posts controller Delete post');
-
   Post.findByIdAndRemove(req.params.id).then(post => {
     res.status(200).json(post);
   });
@@ -101,3 +100,9 @@ module.exports = {
   updatePost,
   deletePost
 };
+
+
+// Post.find(author: req.body.author, (err,posts)=>{
+//   res.status.json(posts)
+// })
+// }

@@ -1,5 +1,5 @@
 import tokenService from '../utils/tokenService';
-import { Route53Resolver } from 'aws-sdk';
+// import { Route53Resolver } from 'aws-sdk';
 
 // // index
 // export function getPosts() {
@@ -59,7 +59,10 @@ export function editPost(post) {
 export function deletePost(id) {
   console.log('$$$$$$$$$$$$$$$$$$$$api service deletePost');
   return fetch(`/api/posts/${id}`, {
-    method: 'delete'
+    method: 'delete',
+    headers: {
+      Authorization: 'Bearer ' + tokenService.getToken()
+    }
   }).then(function(res) {
     return res.json();
   });

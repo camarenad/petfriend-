@@ -66,21 +66,36 @@ class App extends Component {
             path='/'
             render={({ props }) => <LandingPage props={props} />}
           />
-          <Route
+             <Route
             exact
             path='/animals'
-            render={({ props }) => <AuthLanding props={props} />}
-          />
-          <Route
+            render={ (props) =>
+            
+            userService.getUser() ?
+            <AuthLanding {...props} />
+            :
+            <Redirect to='/login' />
+            }/>
+           <Route
             exact
             path='/search'
-            render={({ props }) => <SearchPage props={props} />}
-          />
-          <Route
+            render={ (props) =>
+            
+            userService.getUser() ?
+            <SearchPage {...props} />
+            :
+            <Redirect to='/login' />
+            }/>
+           <Route
             exact
             path='/submit'
-            render={({ props }) => <SubmitPage props={props} />}
-          />
+            render={ (props) =>
+            
+            userService.getUser() ?
+            <SubmitPage {...props} />
+            :
+            <Redirect to='/login' />
+            }/>
           <Route
             exact
             path='/posts/:id/edit'

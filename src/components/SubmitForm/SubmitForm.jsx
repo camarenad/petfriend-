@@ -16,7 +16,6 @@ class SubmitForm extends Component {
     };
   }
   handleChange = e => {
-    console.log(e.target.name, e.target.value);
     this.setState({
       [e.target.name]: e.target.value
     });
@@ -36,8 +35,7 @@ class SubmitForm extends Component {
       .then(response => {
         this.submitFile(response.data.postId).then(post => {
           console.dir(post);
-          // What to do now with newly created post? Send it to App to be put in state?
-          // Or just move to another route?
+          window.location = '/animals'
         });
       })
       .catch(err => console.log(err));
@@ -63,15 +61,7 @@ class SubmitForm extends Component {
     console.log(event.target.files[0]);
     this.setState({ file: event.target.files });
   };
-  // handleSubmit = e => {
-  //   console.log(this.state)
-  //   e.preventDefault()
-  //   console.log(this.state.petSpecies)
-  //   console.log(this.state.content)
-  //   createPost(this.state).then(function(json) {
-  //     console.log(json)
-  //   })
-  // }
+
   render() {
     return (
       <div className='container'>

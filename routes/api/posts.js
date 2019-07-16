@@ -8,11 +8,11 @@ const auth = require('../../config/auth');
 /*---------- Protected Routes ----------*/
 router.use(auth);
 router.get('/index-animals', postsCtrl.indexAnimals);
-router.post('/create-post', postsCtrl.createPost, checkAuth);
-router.post('/upload-file/:postId', postsCtrl.uploadFile, checkAuth);
-router.get('/:id', postsCtrl.show);
-router.put('/:id', postsCtrl.updatePost);
-router.delete('/:id', postsCtrl.deletePost);
+router.post('/create-post', checkAuth, postsCtrl.createPost);
+router.post('/upload-file/:postId', checkAuth, postsCtrl.uploadFile);
+router.get('/:id', checkAuth, postsCtrl.show);
+router.put('/:id', checkAuth, postsCtrl.updatePost);
+router.delete('/:id', checkAuth,postsCtrl.deletePost);
 
 // helper function
 function checkAuth(req, res, next) {
