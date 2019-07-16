@@ -26,6 +26,7 @@ class AuthLanding extends Component {
       .then(json => json)
       .then(data => {
         deletePost(data._id);
+        window.location = '/animals'
       });
   };
 

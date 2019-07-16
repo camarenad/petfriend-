@@ -34,7 +34,7 @@ class App extends Component {
 
   handleSignupOrLogin = () => {
     this.setState({ user: userService.getUser() });
-    window.location = '/user';
+    window.location = '/animals';
   };
   render() {
     return (
@@ -68,7 +68,7 @@ class App extends Component {
           />
           <Route
             exact
-            path='/user'
+            path='/animals'
             render={({ props }) => <AuthLanding props={props} />}
           />
           <Route

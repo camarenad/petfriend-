@@ -13,6 +13,10 @@ const NavBar = props => {
         SEARCH
       </Link>
       &nbsp;&nbsp;|&nbsp;&nbsp;
+      <Link to='/animals' className='NavBar-link'>
+       ANIMALS
+      </Link>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
       <Link to='/submit' className='NavBar-link'>
         SUBMIT
       </Link>
@@ -23,10 +27,6 @@ const NavBar = props => {
     </div>
   ) : (
     <div>
-      <Link to='/search' className='NavBar-link'>
-        SEARCH
-      </Link>
-      &nbsp;&nbsp;|&nbsp;&nbsp;
       <Link to='/login' className='NavBar-link'>
         LOG IN
       </Link>
