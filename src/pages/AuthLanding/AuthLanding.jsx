@@ -46,13 +46,13 @@ class AuthLanding extends Component {
                   src={a.picture}
                 />
                 <div className='card-body'>
-                  <h5 className='card-title'>{a.petName}</h5>
+                  <h5 className='card-title' style={{color:'#FF5733'}}>{a.petName}</h5>
                   <p className='card-text'>{a.content}</p>
                 </div>
                 <ul className='list-group list-group-flush'>
                   <li className='list-group-item'>Age: {a.petAge}</li>
                   <li className='list-group-item'>Breed: {a.petBreed}</li>
-                  <li className='list-group-item'>Species: {a.petSpecies}</li>
+                  {/* <li className='list-group-item'>Species: {a.petSpecies}</li> */}
                   <li className='list-group-item'>Zip Code: {a.zipCode}</li>
                   <li className='list-group-item'>User: {a.author.email}</li>
                 </ul>
@@ -87,8 +87,9 @@ class AuthLanding extends Component {
       );
     });
     return <div>
+       <hr />
       <div>
-      <h1 className='text-center adopt-header'>Adopt</h1>
+      <h1 className='text-center adopt-header'>Adoptable Pets</h1>
       </div>
     {animal}
     </div>;

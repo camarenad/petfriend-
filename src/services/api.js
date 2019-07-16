@@ -35,7 +35,12 @@ export function createPost(post) {
 }
 
 export function getPost(id) {
-  return fetch(`/api/posts/${id}`).then(function(res) {
+  return fetch(`/api/posts/${id}`, {
+    headers: {
+      'content-type': 'application/json',
+      Authorization: 'Bearer ' + tokenService.getToken()
+    }
+  }).then(function(res) {
     return res.json();
   });
 }

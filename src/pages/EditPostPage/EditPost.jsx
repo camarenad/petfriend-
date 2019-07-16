@@ -23,6 +23,7 @@ class EditPostPage extends Component {
     getPost(id)
       .then(json => json)
       .then(data => {
+        console.log(data)
         self.setState({
           petName: data.petName,
           petAge: data.petAge,

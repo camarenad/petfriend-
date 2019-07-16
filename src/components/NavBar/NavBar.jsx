@@ -5,7 +5,7 @@ import './NavBar.css';
 const NavBar = props => {
   let nav = props.user ? (
     <nav className='navbar navbar-expand-lg justify-content-center'>
-     <a style={{margin:'2vh 50%',fontSize:'3rem'}} class="navbar-brand center-text" href="#">Friendly</a>
+     <a style={{margin:'2vh 50%',fontSize:'3rem'}} class="navbar-brand center-text" href="#">Friendslist</a>
       <Link to='/' className='nav-link'>
         HOME
       </Link>
