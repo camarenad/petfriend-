@@ -5,14 +5,6 @@ const fileType = require('file-type');
 // const bluebird = require('bluebird');
 const multiparty = require('multiparty');
 
-// AWS.config.update({
-//     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-//     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
-//   });
-
-//   // configure AWS to work with promises
-//   AWS.config.setPromisesDependency(bluebird);
-
 async function createPost(req, res) {
   const post = new Post(req.body);
   post.author = req.user._id;
