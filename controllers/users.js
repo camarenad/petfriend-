@@ -40,6 +40,9 @@ async function login(req, res) {
 /*----- Helper Functions -----*/
 
 function createJWT(user) {
+  console.log('************************')
+  console.log(SECRET)
+  console.log('**************************')
   return jwt.sign(
     {user}, // data payload
     SECRET,
