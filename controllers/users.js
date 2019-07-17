@@ -42,7 +42,7 @@ async function login(req, res) {
 function createJWT(user) {
   console.log('************************')
   console.log(SECRET)
-  console.log('**************************')
+  console.log('**************************334342')
   return jwt.sign(
     {user}, // data payload
     SECRET,
